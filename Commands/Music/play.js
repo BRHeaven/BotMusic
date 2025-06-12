@@ -15,7 +15,7 @@ export const execute = async (message, args, client) => {
             textChannel: message.channel,
             member: message.member
         });
-        message.channel.send(`🎶 Đang phát: \`${query}\``);
+        message.channel.send(`🎶 Đang kiểm tra: \`${query}\``);
     } catch (error) {
         console.error(`[Command Error] ${error.message} (play.js)`);
         message.channel.send("❌ Bot gặp lỗi khi xử lý lệnh này. Hãy thử lại.");
