@@ -32,12 +32,12 @@ for (const folder of commandFolder) {
                 client.commands.set(alias, command);
             };
         };
-        console.log( client.commands, `load Commands line 28`);
+        //console.log( client.commands, `load Commands line 28`);
     };
 }
 client.on('ready', () => { console.log(`Server online ${client.user.tag}`) });
 client.on('messageCreate', async message => {
-    //console.log(message)
+    console.log(message)
     if (!message.guild || message.author.bot) return;
     const prefix = process.env.PREFIX || '7';
     if (!message.content.startsWith(prefix)) return;
@@ -49,7 +49,6 @@ client.on('messageCreate', async message => {
         console.log(command);
         command = [...client.commands.values()].find( cmd => cmd.aliases?.includes(commandName));
     };
-    console.log(command, `command line 39`);
     if (command) {
         try {
             //console.log(command);
