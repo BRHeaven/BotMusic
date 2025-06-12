@@ -1,6 +1,7 @@
 import { joinVoiceChannel } from '@discordjs/voice';
 
 export const name = 'join';
+export const aliases = ['j'];
 export const execute = async (message, args) => {
   console.log(`join.js `,message);
   const voiceChannel = message.member.voice.channel;
@@ -15,5 +16,5 @@ export const execute = async (message, args) => {
     adapterCreator: voiceChannel.guild.voiceAdapterCreator,
   });
 
-  message.reply(`✅ Đã tham gia voice channel: ${voiceChannel.name}`);
+  message.reply(`✅ Đã tham gia voice channel: **${voiceChannel.name}**`);
 };

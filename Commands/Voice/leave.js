@@ -1,6 +1,7 @@
 import { getVoiceConnection } from '@discordjs/voice';
 
 export const name = 'leave';
+export const aliases = ['l'];
 export const execute = async (message, args) => {
   const connection = getVoiceConnection(message.guild.id);
   if (!connection) {

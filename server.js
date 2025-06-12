@@ -4,6 +4,7 @@ import path from "path";
 import { config } from "dotenv";
 import { dirname } from "path";
 import { fileURLToPath } from "url";
+import { setupDistube } from "./distubeClient.js";
 config();
 const client = new Client({
     intents: [
@@ -13,6 +14,7 @@ const client = new Client({
         GatewayIntentBits.MessageContent,
     ]
 });
+setupDistube(client)
 client.commands = new Collection();
 //Load tất cả command trong folder Commands
 const __filename = fileURLToPath(import.meta.url);
@@ -25,6 +27,11 @@ for (const folder of commandFolder) {
     for (const file of commandFiles) {
         const command = await import(`file://${path.join(commandPath, file)}`);
         client.commands.set(command.name, command);
+        if (command.aliases && Array.isArray(command.aliases)) {
+            for (const alias of command.aliases) {
+                client.commands.set(alias, command);
+            };
+        };
         console.log( client.commands, `load Commands line 28`);
     };
 }
@@ -36,12 +43,17 @@ client.on('messageCreate', async message => {
     if (!message.content.startsWith(prefix)) return;
     const args = message.content.slice(prefix.length).trim().split(/ +/);
     const commandName = args.shift().toLowerCase();
+    console.log(commandName);
     const command = client.commands.get(commandName);
+    if (!command) {
+        console.log(command);
+        command = [...client.commands.values()].find( cmd => cmd.aliases?.includes(commandName));
+    };
     console.log(command, `command line 39`);
     if (command) {
         try {
             //console.log(command);
-            await command.execute(message, args);
+            await command.execute(message, args, client);
         } catch (error) {
             console.error(error);
             message.reply('❌ Có lỗi xảy ra khi thực thi lệnh.');
