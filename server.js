@@ -37,7 +37,7 @@ for (const folder of commandFolder) {
 }
 client.on('ready', () => { console.log(`Server online ${client.user.tag}`) });
 client.on('messageCreate', async message => {
-    console.log(message)
+    //console.log(message)
     if (!message.guild || message.author.bot) return;
     const prefix = process.env.PREFIX || '7';
     if (!message.content.startsWith(prefix)) return;
