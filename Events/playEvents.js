@@ -1,17 +1,20 @@
-import { createEmbedTitle } from "../Helper/embed.js";
+import { createEmbedContent } from "../Helper/embed.js";
 
 export const handlePlaySong = (queue, song, timeoutMap) => {
     if (timeoutMap.has(queue.id)) {
+        console.log(`[Run]: `, true);
         clearTimeout(timeoutMap.get(queue.id));
         timeoutMap.delete(queue.id);
-        queue.textChannel.send({ embeds: [createEmbedTitle(`#0x00ff00`, `Đang phát: **${song.name}** - \`${song.formattedDuration}\``)] });
     };
+    queue.textChannel.send({ embeds: [createEmbedContent(`#19F400`, `Đang phát: **${song.name}** - \`${song.formattedDuration}\``)] });
 };
 
 export const handleAddSong = (queue, song, timeoutMap) => {
-    if (timeoutMap.has(queue.id)) {
+    const listMusic = queue.songs;
+    console.log(`[List]: `, listMusic);
+    if (listMusic.length > 1) {
         clearTimeout(timeoutMap.get(queue.id));
         timeoutMap.delete(queue.id);
-        queue.textChannel.send({ embeds: [createEmbedTitle(`#0x00ff00`, `Đã thêm: **${song.name}** - \`${song.formattedDuration}\``)] });
+        queue.textChannel.send({ embeds: [createEmbedContent(`#19F400`, `Đã thêm: **${song.name}** - \`${song.formattedDuration}\``)] });
     };
 };

@@ -27,7 +27,7 @@ export const execute = async (message, args, client) => {
     } catch (error) {
         console.error(`[Command Error] ${error.message} (play.js)`);
         message.channel.send({
-            embeds: [createEmbedTitle(`#fc0303`, `Bot ngoài hệ thống, vui lòng chờ được sửa lỗi :pleading_face:`)]
+            embeds: [createEmbedTitle(`#fc0303`, `Lỗi ngoài hệ thống, vui lòng chờ được sửa lỗi :pleading_face:`)]
         });
     };
 };

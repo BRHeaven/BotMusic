@@ -1,5 +1,6 @@
 import { joinVoiceChannel, getVoiceConnection } from '@discordjs/voice';
 import { createEmbedContent } from '../../Helper/embed.js';
+import { joinTimeouts } from '../../Events/timeoutEvents.js';
 
 export const name = 'join';
 export const aliases = ['j'];
@@ -31,10 +32,26 @@ export const execute = async (message, args, client) => {
       selfMute: false,
     });
     message.channel.send({
-      embeds: [createEmbedContent(`#1afc05`, `Bot đã tham gia kênh **${userVoiceChannel.name}**. Nếu không phát nhạc trong 5 phút, bot sẽ tự thoát.`)]
+      embeds: [createEmbedContent(`#1afc05`, `Bot đã tham gia kênh **${userVoiceChannel.name}**`)]
     });
+    if (!joinTimeouts.has(message.guild.id)) {
+      ;
+      const timeoutJoin = timeout(message.guild, userVoiceChannel.name, message.channel);
+      joinTimeouts.set(message.guild.id, timeoutJoin);
+    };
   } catch (error) {
     console.error(`[Command Error] ${error.message} (join.js)`);
     return message.channel.send("❌ Bot gặp lỗi khi xử lý lệnh này. Hãy thử lại.");
   };
+};
+const timeout = (voice, name, channel) => {
+  const timeout = setTimeout(() => {
+    const connection = getVoiceConnection(voice.id);
+    if (connection) {
+      connection.destroy();
+      channel.send({ embeds: [createEmbedContent(`#EF0400`, `:hourglass: Sau 5 phút không phát nhạc, Bot đã rời khỏi kênh ${name}`)] });
+      joinTimeouts.delete(voice.id);
+    };
+  }, 10 * 1000);
+  return timeout;
 };
