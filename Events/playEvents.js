@@ -18,3 +18,7 @@ export const handleAddSong = (queue, song, timeoutMap) => {
         queue.textChannel.send({ embeds: [createEmbedContent(`#19F400`, `Đã thêm: **${song.name}** - \`${song.formattedDuration}\``)] });
     };
 };
+export const handleAddlist = (queue, playlist) => {
+    console.log("[Debug] Queue initialized:", queue.songs.length);
+    queue.textChannel?.send({ embeds: [createEmbedContent(`#19F400`, `Đã thêm playlist: **${playlist.name}** gồm ${playlist.songs.length} bài`)]});
+};

@@ -53,6 +53,5 @@ export const validateMusicPlay = (args = []) => {
         };
         return { valid: true, query: extractedLink };
     };
-    // Nếu không có link, dùng phần còn lại để tìm kiếm
     return { valid: true, query: fullText };
 };
